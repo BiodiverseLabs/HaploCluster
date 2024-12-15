@@ -88,15 +88,20 @@ def cluster_and_save_reads(input_fastq, k=8, eps=0.15):
             cluster_dict.setdefault(lbl, []).append((reads[idx], profiles[idx]))
 
     # Extract reads and profiles for each cluster
+    if not cluster_dict:  # Handle cases where no clusters are formed
+        print(f"No valid clusters found in {input_fastq}. Skipping clustering.")
+        return
+
     cluster_reads = [[item[0] for item in cluster_dict[c]] for c in sorted(cluster_dict.keys())]
     cluster_profiles = [[item[1] for item in cluster_dict[c]] for c in sorted(cluster_dict.keys())]
 
     # Reassign noise reads to the nearest clusters
     reassigned_clusters = assign_noise_to_clusters(noise_reads, noise_profiles, cluster_profiles)
 
-    # Append reassigned noise reads to the clusters
+    # Append reassigned noise reads to the existing clusters
     for i, reassigned in enumerate(reassigned_clusters):
-        cluster_reads[i].extend(reassigned)
+        if i < len(cluster_reads):  # Ensure index exists in cluster_reads
+            cluster_reads[i].extend(reassigned)
 
     # Save clusters to FASTQ files
     base_name = os.path.splitext(os.path.basename(input_fastq))[0]
@@ -104,6 +109,7 @@ def cluster_and_save_reads(input_fastq, k=8, eps=0.15):
         output_file = f"Cluster_{cluster_id}-{len(cluster)}seqs-{base_name}.fastq"
         SeqIO.write(cluster, output_file, "fastq")
         print(f"Cluster {cluster_id}: {len(cluster)} reads saved to {output_file}")
+
 
 def main():
     # Look for a FASTQ file in the current working directory
