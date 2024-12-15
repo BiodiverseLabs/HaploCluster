@@ -35,6 +35,11 @@ def compute_centroid(profiles):
 
 def assign_noise_to_clusters(noise_reads, noise_profiles, cluster_profiles):
     """Assign noise reads to the nearest cluster based on distance to centroids."""
+    # Check if there are valid clusters
+    if not cluster_profiles:
+        print("No valid clusters found. Skipping noise reassignment.")
+        return [[] for _ in noise_reads]  # Return empty assignments for all noise reads
+
     # Compute centroids for each cluster
     centroids = [compute_centroid(profiles) for profiles in cluster_profiles]
 
@@ -42,9 +47,13 @@ def assign_noise_to_clusters(noise_reads, noise_profiles, cluster_profiles):
     for i, noise_profile in enumerate(noise_profiles):
         # Find the closest centroid for each noise read
         distances = [jaccard_distance(noise_profile, centroid) for centroid in centroids]
+        if not distances:  # If distances are empty
+            print(f"Noise read {i} could not be assigned to any cluster.")
+            continue
         closest_cluster = np.argmin(distances)
         reassigned_clusters[closest_cluster].append(noise_reads[i])
     return reassigned_clusters
+
 
 def cluster_and_save_reads(input_fastq, k=8, eps=0.15):
     """Cluster sequences using DBSCAN, reassign noise reads, and save reads by cluster."""
