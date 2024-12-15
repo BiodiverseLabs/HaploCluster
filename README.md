@@ -6,6 +6,7 @@ A Python tool for **haplotype clustering** and **noise reassignment** from DNA s
 
 ## Key Features
 - **DBSCAN Clustering**: Groups similar DNA sequences using Jaccard distance and user-defined parameters (`k` and `eps`).
+- **Optimized for Oxtford Nanopore Error Profiles**: Default parameters are specific to the error profiles from 10.4.1 flowcells and LSK-114 chemistry.
 - **Noise Reassignment**: Reads identified as noise by DBSCAN are reassigned to the nearest cluster based on distance to cluster centroids.
 - **Flexible K-mer Analysis**: Extracts k-mer profiles with a default k-mer size of `k=8` to represent sequence features effectively.
 - **Output FASTQ Files**: Saves each cluster's reads into separate FASTQ files with descriptive filenames, including cluster ID and the number of reads in each cluster.
