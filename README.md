@@ -81,7 +81,7 @@ cluster_and_save_reads(input_fastq, k=8, eps=0.15)
 
 - **Haplotype Clustering**: Organize sequencing reads into distinct haplotype clusters based on sequence similarity.
 - **Noise Reduction**: Eliminate sequencing noise by reassigning noisy reads to appropriate clusters.
-- **Environmental Sequencing**: Cluster reads from complex microbial or fungal communities.
+- **Specimen Amplicon Sequencing**: Cluster reads from organisms that hive high intraspecific variation, such as fungi.
 
 ## Future Enhancements
 
