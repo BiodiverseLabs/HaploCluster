@@ -1,5 +1,7 @@
 # HaploCluster
 
+## UNDER DEVELOPMENT
+
 A Python tool for **haplotype clustering** and **noise reassignment** from DNA sequencing reads in FASTQ files. HaploCluster processes sequencing reads using k-mer profiles, applies **DBSCAN clustering**, and ensures that all reads—including noise—are assigned to meaningful clusters. The output consists of clustered reads saved into individual FASTQ files.
 
 ## Key Features
